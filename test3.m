@@ -38,8 +38,8 @@ for i = 1:length(data_ocv)
     data_ocv(i).cumQ = abs(cumtrapz(data_ocv(i).t,data_ocv(i).I))/3600;
 end
 
-data_ocv(step_ocv_chg).SOC = data_ocv(i).cumQ/data_ocv(i).Q;
-data_ocv(step_ocv_dis).SOC = 1 - data_ocv(i).cumQ/data_ocv(i).Q;
+data_ocv(step_ocv_chg).SOC = data_ocv(step_ocv_chg).cumQ/data_ocv(step_ocv_chg).Q;
+data_ocv(step_ocv_dis).SOC = 1 - data_ocv(step_ocv_dis).cumQ/data_ocv(step_ocv_dis).Q;
 
 % C-rate
 
