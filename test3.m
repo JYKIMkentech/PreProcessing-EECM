@@ -24,5 +24,5 @@ ylabel('current (C)')
 
 data_ocv = data(1:6); % OCV = 1부터 6번째 struct 
 data_dcir = data(7:164);
-% data_rate = data(165: )
+data_rate = data(165:178);
 
