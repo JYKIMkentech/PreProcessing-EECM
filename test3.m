@@ -26,7 +26,7 @@ data_ocv = data(1:6); % OCV = 1부터 6번째 struct
 data_dcir = data(7:164);
 data_rate = data(165:178);
 
-% OCV 
+% OCV (C/20)
 
 step_ocv_chg = 4;
 step_ocv_dis = 6;
@@ -40,6 +40,10 @@ end
 
 data_ocv(step_ocv_chg).SOC = data_ocv(i).cumQ/data_ocv(i).Q;
 data_ocv(step_ocv_dis).SOC = 1 - data_ocv(i).cumQ/data_ocv(i).Q;
+
+% C-rate
+
+
 
 
 
