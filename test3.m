@@ -43,6 +43,22 @@ data_ocv(step_ocv_dis).SOC = 1 - data_ocv(step_ocv_dis).cumQ/data_ocv(step_ocv_d
 
 % C-rate
 
+% rate marking 
+
+for i = 1:length(data_rate)
+
+    data_rate(i).Q = abs(trapz(data_rate(i).t, data_rate(i).I))/3600;
+    data_rate(i).cumQ = abs(cumtrapz(data_rate(i).t,data_rate(i).I))/3600;
+end
+
+
+
+
+
+
+% soc 추정 
+
+
 
 
 
