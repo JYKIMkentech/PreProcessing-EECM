@@ -24,9 +24,9 @@ data1.I = vertcat(data(1:end).I);
 
 data_ocv = data(1:6); % OCV = 1부터 6번째 struct 
 data_dcir = data(7:164);
-data_rate = data(165:178);
+data_rate = data(165:178); % DCIR 후 rest 2시간 --> ocv 돌입 가정, 
 
-% OCV 
+% OCV (C/20)
 
 step_ocv_chg = 4;
 step_ocv_dis = 6;
@@ -38,8 +38,44 @@ for i = 1:length(data_ocv)
     data_ocv(i).cumQ = abs(cumtrapz(data_ocv(i).t,data_ocv(i).I))/3600;
 end
 
-data_ocv(step_ocv_chg).OSC = data_ocv(i).cumQ/data_ocv(i).Q;
-data_ocv(step_ocv_dis).soc = 1 - data_ocv(i).cumQ/data_ocv(i).Q;
+data_ocv(step_ocv_chg).SOC = data_ocv(step_ocv_chg).cumQ/data_ocv(step_ocv_chg).Q;
+data_ocv(step_ocv_dis).SOC = 1 - data_ocv(step_ocv_dis).cumQ/data_ocv(step_ocv_dis).Q;
+
+% C-rate
+
+crate_chg_vec = [0.5 1 2 4];
+step_crate_chg = [2 6 10 14];
+
+data_rate(2).mark = 0.5;
+data_rate(6).mark = 1;
+data_rate(10).mark = 2;
+data_rate(14).mark = 4;
+
+
+% rate marking 
+
+for i = 1:length(data_rate)
+
+    data_rate(i).Q = abs(trapz(data_rate(i).t, data_rate(i).I))/3600;
+    data_rate(i).cumQ = abs(cumtrapz(data_rate(i).t,data_rate(i).I))/3600;
+end
+
+% soc 추정 
+
+% ocv voltage 추출
+
+for n = 1:length(step_crate_chg)
+
+    k = step_crate_chg(n);
+    [x_uniq,ind_uniq] = unique(data_ocv(step_ocv_chg).V);
+    y_uniq = OCV_golden.OCVchg(ind_uniq',1)
+
+end
+
+
+
+
+
 
 
 
