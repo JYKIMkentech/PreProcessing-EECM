@@ -7,6 +7,8 @@ I_1C = 0.00429;
 
 load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 1C (25-42)\25degC\HNE_FCC_4CPD 1C (25-42)_25degC_s01_6_6_RPT1.mat'); %RPT_file
 
+load('G:\공유 드라이브\Battery Software Lab\Models\EECM\example_1\example1_RRmodel.mat') % dummy data
+
 data1.t = vertcat(data(1:end).t);
 data1.V = vertcat(data(1:end).V);
 data1.I = vertcat(data(1:end).I);
@@ -43,6 +45,11 @@ data_ocv(step_ocv_dis).SOC = 1 - data_ocv(step_ocv_dis).cumQ/data_ocv(step_ocv_d
 
 % C-rate
 
+
+% rate marking --> 자동화 추후 예정
+
+Q_ocv = data_ocv(4).Q; % ocv 실험에서 얻은 Q 기준
+
 crate_chg_vec = [0.5 1 2 4];
 step_crate_chg = [2 6 10 14];
 
@@ -51,8 +58,7 @@ data_rate(6).mark = 1;
 data_rate(10).mark = 2;
 data_rate(14).mark = 4;
 
-
-% rate marking 
+% soc 추정 
 
 for i = 1:length(data_rate)
 
@@ -60,20 +66,74 @@ for i = 1:length(data_rate)
     data_rate(i).cumQ = abs(cumtrapz(data_rate(i).t,data_rate(i).I))/3600;
 end
 
-% soc 추정 
-
-% ocv voltage 추출
-
 for n = 1:length(step_crate_chg)
 
     k = step_crate_chg(n);
-    [x_uniq,ind_uniq] = unique(data_ocv(step_ocv_chg).V);
-    y_uniq = OCV_golden.OCVchg(ind_uniq',1)
+    [x_uniq,ind_uniq] = unique(data_ocv(step_ocv_chg).V); % 중복된 Voltage 제거
+    y_uniq = data_ocv(step_ocv_chg).SOC(ind_uniq); % 중복이 제거된 voltage에 match 되는 soc 추출 (ocv - soc 관계)
+    
+    soc0 = interp1(x_uniq,y_uniq,data_rate(k-1).V(end),'linear','extrap'); % charge rate 직전 rest 마지막 voltage 기준
+    if soc0 < 0
+        soc0 = 0;
+    end
+    data_rate(k).soc = soc0 + data_rate(k).cumQ/Q_ocv; % 분모 = ocv RPT 에서 얻은 Q 값
+end
+
+%% RR struct 만들기
+
+% Rss = [V(soc)-OCV(soc)]/I, soc는 rate 기준으로 맞추기
+
+for n = 1:length(crate_chg_vec)
+
+    k = step_crate_chg(n);
+    data_rate(k).OCV_rate = interp1(data_ocv(4).SOC, data_ocv(4).V, data_rate(k).soc,'linear','extrap');
+    data_rate(k).Rss = [data_rate(k).V - data_rate(k).OCV_rate]/mean(data_rate(k).I);
 
 end
 
+% DataBank 만들기
+BSL_DataBank = struct();
+Rate_grid = [crate_chg_vec]; 
+Temp_grid = [25; 35; 45]; % 추후 자동화 예정
+
+Rss = cell(1,length(Rate_grid)); % 온도 자동화 이후 --> cell(length(Temp_grid),length(Rate_grid)); 
+
+for n = 1:length(crate_chg_vec)
+    
+    k = step_crate_chg(n);
+    Rss{1,n} = [data_rate(k).soc, data_rate(k).Rss] ;
+
+end
+
+% 202403 ver BSL 추가된 DataBank
+BSL_DataBank.Rate_grid = Rate_grid;
+BSL_DataBank.Temp_grid = Temp_grid;
+BSL_DataBank.Rss = Rss;
+BSL_DataBank.I_1C = I_1C
+
+% 기존 DataBank
+BSL_DataBank.Rss_discharge = DataBank.Rss_discharge;
+BSL_DataBank.V = DataBank.Rss_discharge;
+BSL_DataBank.Qmax = DataBank.Rss_discharge;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
 
 

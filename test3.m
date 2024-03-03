@@ -7,6 +7,8 @@ I_1C = 0.00429;
 
 load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 1C (25-42)\25degC\HNE_FCC_4CPD 1C (25-42)_25degC_s01_6_6_RPT1.mat'); %RPT_file
 
+load('G:\공유 드라이브\Battery Software Lab\Models\EECM\example_1\example1_RRmodel.mat') % dummy data
+
 data1.t = vertcat(data(1:end).t);
 data1.V = vertcat(data(1:end).V);
 data1.I = vertcat(data(1:end).I);
@@ -74,12 +76,47 @@ for n = 1:length(step_crate_chg)
     if soc0 < 0
         soc0 = 0;
     end
-    data_rate(k).soc = soc0 + data_rate(k).cumQ/Q_ocv;
+    data_rate(k).soc = soc0 + data_rate(k).cumQ/Q_ocv; % 분모 = ocv RPT 에서 얻은 Q 값
 end
 
 %% RR struct 만들기
 
-% R = (V-OCV)/I, soc는 rate 기준으로 맞추기
+% Rss = [V(soc)-OCV(soc)]/I, soc는 rate 기준으로 맞추기
+
+for n = 1:length(crate_chg_vec)
+
+    k = step_crate_chg(n);
+    data_rate(k).OCV_rate = interp1(data_ocv(4).SOC, data_ocv(4).V, data_rate(k).soc,'linear','extrap');
+    data_rate(k).Rss = [data_rate(k).V - data_rate(k).OCV_rate]/mean(data_rate(k).I);
+
+end
+
+% DataBank 만들기
+BSL_DataBank = struct();
+Rate_grid = [crate_chg_vec]; 
+Temp_grid = [25; 35; 45]; % 추후 자동화 예정
+
+Rss = cell(1,length(Rate_grid)); % 온도 자동화 이후 --> cell(length(Temp_grid),length(Rate_grid)); 
+
+for n = 1:length(crate_chg_vec)
+    
+    k = step_crate_chg(n);
+    Rss{1,n} = [data_rate(k).soc, data_rate(k).Rss] ;
+
+end
+
+% 202403 ver BSL 추가된 DataBank
+BSL_DataBank.Rate_grid = Rate_grid;
+BSL_DataBank.Temp_grid = Temp_grid;
+BSL_DataBank.Rss = Rss;
+BSL_DataBank.I_1C = I_1C;
+
+% 기존 DataBank
+BSL_DataBank.Rss_discharge = DataBank.Rss_discharge;
+BSL_DataBank.V = DataBank.Rss_discharge;
+BSL_DataBank.Qmax = DataBank.Rss_discharge;
+BSL_DataBank.Vtop = DataBank.Vtop;
+BSL_DataBank.Vref = DataBank.Vref;
 
 
 
@@ -88,6 +125,15 @@ end
 
 
 
+
+
+
+
+
+
+
+
+  
 
 
 
