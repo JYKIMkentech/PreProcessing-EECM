@@ -118,9 +118,19 @@ for i = 1:length(Temp_grid)
     BSL_DataBank.Vref{i,j} = DataBank.Vref{i,m(j)};
     end
 end
+% 
+% Rss{2,1} = Rss{1,1};
+% Rss{3,1} = Rss{1,1};
+% Rss{2,2} = Rss{1,2};
+% Rss{3,2} = Rss{1,2};
+% Rss{2,3} = Rss{1,3};
+% Rss{3,3} = Rss{1,3};
+% Rss{2,4} = Rss{1,4};
+% Rss{3,4} = Rss{1,4};
 
 Rss = Rss([1:4]);
 
+Rate_grid = [0 0.5 1 2];
 
 % 202403 ver BSL 추가된 DataBank
 BSL_DataBank.Rate_grid = Rate_grid;
@@ -135,7 +145,7 @@ BSL_DataBank.Qmax = DataBank.Rss_discharge;
 BSL_DataBank.Vtop = DataBank.Vtop;
 %BSL_DataBank.Vref = DataBank.Vref;
 
-
+save('BSL_DataBank','BSL_DataBank');
 
 
 
