@@ -116,6 +116,7 @@ m = [1,6,11,19];
 for i = 1:length(Temp_grid)
     for j = 1:length(m)
     BSL_DataBank.Vref{i,j} = DataBank.Vref{i,m(j)};
+    BSL_DataBank.V{i,j} = DataBank.V{i,m(j)};
     end
 end
 % 
@@ -136,16 +137,20 @@ Rate_grid = [0 0.5 1 2];
 BSL_DataBank.Rate_grid = Rate_grid;
 BSL_DataBank.Temp_grid = Temp_grid;
 BSL_DataBank.Rss = Rss;
-BSL_DataBank.I_1C = I_1C;
+BSL_DataBank.I_1C = repmat(I_1C,1,length(Temp_grid));
 
 % 기존 DataBank
 BSL_DataBank.Rss_discharge = DataBank.Rss_discharge;
-BSL_DataBank.V = DataBank.V;
-BSL_DataBank.Qmax = DataBank.Rss_discharge;
+%BSL_DataBank.V = DataBank.V;
+BSL_DataBank.Qmax = repmat(Q_ocv,1,length(Temp_grid));
 BSL_DataBank.Vtop = DataBank.Vtop;
-%BSL_DataBank.Vref = DataBank.Vref;
+BSL_DataBank.Rss = repmat(BSL_DataBank.Rss,length(Temp_grid),1);
 
-save('BSL_DataBank','BSL_DataBank');
+%% 파일 저장
+
+save_folder = 'G:\공유 드라이브\BSL_Data2\Models\EECM\Hyundai_dataSet';
+
+save([save_folder filesep 'BSL_DataBank.mat'], 'BSL_DataBank');
 
 
 
