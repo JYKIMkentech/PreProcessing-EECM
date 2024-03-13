@@ -135,7 +135,7 @@ for i = 1:length(Temp_grid)
     for j = 1:length(m)
     BSL_DataBank.Vref{i,j} = DataBank.Vref{i,m(j)};
     %BSL_DataBank.V{i,j} = DataBank.V{i,m(j)};
-    BSL_DataBank.Rss_discharge(i,j) = DataBank.Rss_discharge(i,m(j));
+    BSL_DataBank.Rss_discharge(i,j) = DataBank.Rss_discharge(i,m(j)) * 61.04;
     end
 end
 
@@ -162,7 +162,7 @@ BSL_DataBank.I_1C = repmat(I_1C,1,length(Temp_grid));
 %BSL_DataBank.Rss_discharge = DataBank.Rss_discharge;
 %BSL_DataBank.V = DataBank.V;
 BSL_DataBank.Qmax = repmat(Q_ocv,1,length(Temp_grid));
-BSL_DataBank.Vtop = DataBank.Vtop;
+BSL_DataBank.Vtop = 4.2;
 BSL_DataBank.Rss = repmat(BSL_DataBank.Rss,length(Temp_grid),1);
 BSL_DataBank.V = repmat(BSL_DataBank.V,length(Temp_grid),1);
 
