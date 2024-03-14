@@ -154,22 +154,19 @@ OCV.OCV = sort(ocv_tem_group, 'descend');
 a = OCV.OCV(1,1)-2.5;
 b = OCV.OCV(1,1)-OCV.OCV(end,1);
 
-OCV_scaling = OCV.OCV(:,1) * a/b + (1-a/b) * OCV.OCV(1,1) ;
-plot(OCV.SOC, OCV_scaling);
+OCV_scaling = OCV.OCV(:,1) * a/b + (1-a/b) * OCV.OCV(1,1) 
+plot(OCV.SOC, OCV_scaling)
 hold on
-plot(OCV.SOC, OCV.OCV);
-xlim([-0.1, 1.1]);
+plot(OCV.SOC, OCV.OCV)
+xlim[-0.5, 1.1]
 
 
-OCV.OCV = OCV_scaling;
-OCV.OCV = repmat(OCV_scaling, 1, length(Temp_grid));
+% save
+
+%save_fullpath = [data_folder '.mat'];
+%save(save_fullpath, 'OCV')
 
 
-%% 파일 저장
-
-save_folder = 'G:\공유 드라이브\BSL_Data2\Models\EECM\Hyundai_dataSet';
-
-save([save_folder filesep 'OCV_FCC.mat'], 'OCV');
 
 
 
