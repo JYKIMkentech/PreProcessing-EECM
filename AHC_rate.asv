@@ -17,6 +17,5 @@ hold on
 plot(data1.t, data1.I/I_1C)
 plot(data1.t,data1.V)
 
-% AHC에서 역 C-RATE --> X,V 가져오기
-% CHC에서 C-RATE ---> Y,V 가져오기
+% AHC에서 
 
