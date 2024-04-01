@@ -9,7 +9,7 @@ folder_path{1} = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FC
 legend_texts = {}; % 모든 폴더에 대한 legend 항목을 저장할 셀 배열 초기화
 for k = 1:length(folder_path)
     % 해당 폴더의 파일 정보를 가져와서 data 변수에 저장
-   merged_files = dir(fullfile(folder_path{k}, '*s01*Merged.mat'));
+   merged_files = dir(fullfile(folder_path{k}, '*Merged.mat'));
 
 
 
@@ -68,9 +68,9 @@ for n = 1:length(merged_files)
     
 
 figure(1)
-data_D = data_merged(([data_merged.type]=='D')&(abs([data_merged.Q])>0.002)&([data_merged.rptflag]==0)|([data_merged.OCVflag])==2);
+data_D = data_merged(([data_merged.type]=='D')&(abs([data_merged.Q])>0.001)&([data_merged.rptflag]==0)|([data_merged.OCVflag])==2);
 scatter([data_D.cycle],abs([data_D.Q])*1000)
-ylim([2 5]);
+%ylim([2 5]);
 xlabel('Cycle (n)');
 ylabel('Cap (mAh)');
 legend(newNamePart); hold on
@@ -78,7 +78,7 @@ legend(newNamePart); hold on
 figure(2)
 Q_D_max = data_merged(([data_merged.type]=='D')&([data_merged.OCVflag])==2);
 Q_D_max = Q_D_max(1).Q;
-ylim([0.4 1.2]);
+%ylim([0.4 1.2]);
 xlabel('Cycle (n)');
 ylabel('Cap / Cap0');
 
@@ -92,7 +92,7 @@ for i = 1:length(data_D)
 data_D_t = [data_D_t, data_D(i).t(end)]; 
 end
 scatter(data_D_t/3600,Q_norm)
-ylim([0.4 1.2]);
+%ylim([0.4 1.2]);
 xlabel('time (h)');
 ylabel('Cap / Cap0');
 
