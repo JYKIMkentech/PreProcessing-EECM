@@ -7,7 +7,8 @@ load(data_folder);
 I_1C = 0.0043;
 ocp_index = [];
 
-Rate_vec = [-0.5 -1 -2 -4 -6];
+Rate_grid = [-0.5   -1  -2  -4  -6];
+rate_vec =  [1      5    9  13  17];
 
 %% OCP, Rate flag 설정
 
@@ -34,7 +35,7 @@ data_ocp = data(20:23);
 
 Rate_index = [142 146 150 154 158]; %[-0.5 -1 -2 -4 -6]
 for j = 1:length(Rate_index)
-       data(Rate_index(j)).Rateflag = Rate_vec(j);
+       data(Rate_index(j)).Rateflag = Rate_grid(j);
 end
 
 data_rate = data(142:158);
@@ -70,11 +71,11 @@ end
 
 %% Make RR struct
 
-RR.anode{1,1} = [data_ocp(1).V, data_ocp(1).stoic]; %ocp
-for j = 1:length(Rate_index)
-RR.anode{1,2} = 
+RR.grid = [0 Rate_grid];
+RR.anode{1,1} = [data_ocp(1).stoic,data_ocp(1).V]; %ocp
+for j = 2:length(Rate_index)
+RR.anode{1,j} = [data_rate(rate_vec(j)).stoic, data_rate(rate_vec(j)).V];
 end
-
 
 
 
