@@ -182,8 +182,8 @@ for i = 1:length(Rate_grid)+1
     
 end
 for i = 1 : length(BSL_DataBank.Rate_grid)
-    RR.anode{1,i}(:,4) = interp1(RR.anode{1,i}(:,3),RR.anode{1,i}(:,2),BSL_DataBank.V{1,i}(:,1),'linear','extrap');
-   % RR.cathode{1,i}(:,4) =
+    RR.anode{1,i}(:,4) = interp1(RR.anode{1,i}(:,3),RR.anode{1,i}(:,2),BSL_DataBank.V{1,i}(:,1))
+    RR.cathode{1,i}(:,4) =
 
 end
 
