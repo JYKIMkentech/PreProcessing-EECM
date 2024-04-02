@@ -182,13 +182,20 @@ for i = 1:length(Rate_grid)+1
     
 end
 for i = 1 : length(BSL_DataBank.Rate_grid)
-    RR.anode{1,i}(:,4) = interp1(RR.anode{1,i}(:,3),RR.anode{1,i}(:,2),BSL_DataBank.V{1,i}(:,1),'linear','extrap');
-   % RR.cathode{1,i}(:,4) =
+    BSL_DataBank.Va{1,i}(:,1) = BSL_DataBank.V{1,i}(:,1);
+    BSL_DataBank.Va{1,i}(:,2) = interp1(RR.anode{1,i}(:,3),RR.anode{1,i}(:,2),BSL_DataBank.V{1,i}(:,1),'linear','extrap'); % soc_fc기준 Va
+    BSL_DataBank.Vc{1,i}(:,1) = BSL_DataBank.V{1,i}(:,1);
+    BSL_DataBank.Vc{1,i}(:,2) = interp1(RR.cathode{1,i}(:,3),RR.cathode{1,i}(:,2),BSL_DataBank.V{1,i}(:,1),'linear','extrap'); %soc_fc 기준 Vc
 
 end
 
+%% check point [soc_fc, Va, Vc- Va] 맞는지 확인 
+for i = 1 : length(BSL_DataBank.Rate_grid)
+    RR.Vref{1,i}(:,1) =  BSL_DataBank.V{1,i}(:,1); % soc_fc
+    RR.Vref{1,i}(:,2) =  BSL_DataBank.Va{1,i}(:,2); % Va
+    RR.Vref{1,i}(:,3) =  BSL_DataBank.Vc{1,i}(:,2) - BSL_DataBank.Va{1,i}(:,2); %Vc-Va
 
-
+end
 
 
 
