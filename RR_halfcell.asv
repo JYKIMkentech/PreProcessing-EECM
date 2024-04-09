@@ -209,27 +209,12 @@ BSL_DataBank.Vref = repmat(BSL_DataBank.Vref,length(Temp_grid),1);
 
 
 %% C-rate 별 Vref, Vcat- Vref plot
-figure(1)
-C_rate = [0 0.5 1 2];
-for j = 1:length(C_rate)
-    plot(BSL_DataBank.Vref{1,j}(:,1), BSL_DataBank.Vref{1,j}(:,2));
-    hold on
+
+for j = 1; length(C_rate)
+  
+ plot(BSL_DataBank.Vref{1,j}(:,1), BSL_DataBank.Vref{1,j}(:,2)
+ hold on
 end
-
-title('Vref')
-legendCell = cellstr(num2str(C_rate', 'C-rate = %0.1f'));
-legend(legendCell);
-
-figure(2)
-for j = 1:length(C_rate)
-    plot(BSL_DataBank.Vref{1,j}(:,1), BSL_DataBank.Vref{1,j}(:,3));
-    hold on
-end
-
-title('Vc-Vref')
-legendCell = cellstr(num2str(C_rate', 'C-rate = %0.1f'));
-legend(legendCell);
-
 
 
 
