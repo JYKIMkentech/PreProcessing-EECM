@@ -44,10 +44,20 @@ Q_resistance(1) = data_D(1).Q - data_D(2).Q ;
 
 % 나머지 Q_resistance = ocv(c/20) - 앞쪽 aging 1c Q
 
-% for 1 : length(indices)
-% 
-% 
-% end
+for k = 2 : length(indices)
+   Q_resistance(k) = data_D(indices(k)).Q - data_D(indices(k)-1).Q;
+end
+
+
+
+
+
+
+
+
+
+
+
 
 
 
