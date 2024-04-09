@@ -36,18 +36,17 @@ end
 
 % Discharge aging , OCV discharge 구조체 가져오기  
 data_D = data_merged(([data_merged.type]=='D')&(abs([data_merged.Q])>0.001)&([data_merged.rptflag]==0)|([data_merged.OCVflag])==2);
-indices = find([data_D.OCVflag]==2);
 
-% first Q_resistance = ocv(c/20) - 뒷쪽 aging 1c Q
+% first Q_resistance = ocv(c/20) - 뒷쪽 aging 
 Q_resistance = [];
 Q_resistance(1) = data_D(1).Q - data_D(2).Q ;
 
-% 나머지 Q_resistance = ocv(c/20) - 앞쪽 aging 1c Q
+% 나머지 Q_resistance = ocv(c/20) - 앞쪽 aging
 
-% for 1 : length(indices)
-% 
-% 
-% end
+for 1 : 6
+
+
+end
 
 
 
