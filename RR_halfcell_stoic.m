@@ -171,78 +171,15 @@ for k = 1:2
    end
 end
 
-%% RR - SOC 맞추기
-
-RR_folder = 'G:\공유 드라이브\BSL_Data2\Models\EECM\Hyundai_dataSet';
-
-load([RR_folder filesep 'BSL_DataBank.mat'], 'BSL_DataBank');
-
-for i = 1:length(Rate_grid)+1
-    x = RR.anode{1,i}(:,1);
-    RR.anode{1,i}(:,3) = (x - x0)/(x1-x0); % X에 해당하는 soc (anode)
-    y = RR.cathode{1,i}(:,1);
-    RR.cathode{1,i}(:,3) = (y - y0)/(y1-y0); % y에 해당하는 soc (cathode)
-    
-end
-for i = 1 : length(BSL_DataBank.Rate_grid)
-    BSL_DataBank.Va{1,i}(:,1) = BSL_DataBank.V{1,i}(:,1);
-    BSL_DataBank.Va{1,i}(:,2) = interp1(RR.anode{1,i}(:,3),RR.anode{1,i}(:,2),BSL_DataBank.V{1,i}(:,1),'linear','extrap'); % soc_fc기준 Va
-    BSL_DataBank.Vc{1,i}(:,1) = BSL_DataBank.V{1,i}(:,1);
-    BSL_DataBank.Vc{1,i}(:,2) = interp1(RR.cathode{1,i}(:,3),RR.cathode{1,i}(:,2),BSL_DataBank.V{1,i}(:,1),'linear','extrap'); %soc_fc 기준 Vc
-
+for j = 1:length(C_rate)
+    plot(RR.anode{1,j}(:,1), RR.anode{1,j}(:,2))
+    hold on
 end
 
-%% check point [soc_fc, Va, Vc- Va] 맞는지 확인 
-for i = 1 : length(BSL_DataBank.Rate_grid)
-    RR.Vref{1,i}(:,1) =  BSL_DataBank.V{1,i}(:,1); % soc_fc
-    RR.Vref{1,i}(:,2) =  BSL_DataBank.Va{1,i}(:,2); % Va
-    RR.Vref{1,i}(:,3) =  BSL_DataBank.Vc{1,i}(:,2) - BSL_DataBank.Va{1,i}(:,2); %Vc-Va
-
-end
-
-BSL_DataBank.Vref = RR.Vref;
-BSL_DataBank.Vref = repmat(BSL_DataBank.Vref,length(Temp_grid),1);
+title('Vref')
+legendCell = cellstr(num2str(C_rate', 'C-rate = %0.1f'));
+legend(legendCell);
 
 
 
-
-
-
-%% C-rate 별 Vref, Vcat- Vref plot
-
-for j = 1; length(C_rate)
-  
- plot(BSL_DataBank.Vref{1,j}(:,1), BSL_DataBank.Vref{1,j}(:,2)
- hold on
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% data1.I = vertcat(data.I);
-% data1.V = vertcat(data.V);
-% data1.t = vertcat(data.t);
-% 
-% figure
-% plot(data1.t/3600, data1.V, '-')
-% xlabel('time (hours)')
-% ylabel('voltage (V)')
-% yyaxis right
-% plot(data1.t/3600, data1.I/I_1C, '-')
-% ylabel('current (C)')
-
-% 
-% % AHC에서 역 C-RATE --> X,V 가져오기
-% % CHC에서 C-RATE ---> Y,V 가져오기
 
