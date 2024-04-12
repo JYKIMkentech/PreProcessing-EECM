@@ -1,6 +1,9 @@
 clc;clear;close all
 
 folder_path = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 1C (25-42)\25degC';
+
+%load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 1C (25-42)\25degC\HNE_FCC_4CPD 1C (25-42)_25degC_s01_3_6_Merged.mat')
+
 merged_files = dir(fullfile(folder_path, '*Merged.mat'));
 
 
@@ -47,18 +50,6 @@ Q_resistance(1) = data_D(1).Q - data_D(2).Q ;
 for k = 2 : length(indices)
    Q_resistance(k) = data_D(indices(k)).Q - data_D(indices(k)-1).Q;
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
