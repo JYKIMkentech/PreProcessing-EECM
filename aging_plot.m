@@ -1,8 +1,8 @@
 clc;clear;close all
 
 folder_path{1} = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 1C (25-42)\n10degC';
-%folder_path{2} = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 4C (25-42)\n10degC';
-%folder_path{3} = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\n10degC';
+folder_path{2} = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 4C (25-42)\n10degC';
+folder_path{3} = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\n10degC';
 
 
 
