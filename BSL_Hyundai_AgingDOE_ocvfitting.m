@@ -123,7 +123,7 @@ for i = 1:size(data_merged,1) % loop over steps
         
         dvdq = diff(ocv)./diff(q);
         dvdq = [dvdq; dvdq(end)];
-        dvdq_mov = movmean(dvdq, window_size);
+        dvdq_mov = movmean(dvdq, window_size); 
 
         soc_min1 = 0.1;
         soc_max1 = 0.2;
