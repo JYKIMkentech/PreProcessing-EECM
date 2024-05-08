@@ -42,9 +42,19 @@ clc;clear;close all
 % load Merged data
     % see BSL_hyundai_agingDOE_merge.m
     %load('NE_OCV_Merged.mat')
+<<<<<<< HEAD
     load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s01_91_50_Merged.mat')
     %load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s02_92_51_Merged.mat')
     
+=======
+
+    filepath = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s01_91_50_Merged.mat';
+    load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s01_91_50_Merged.mat')
+    [folder, save_name, ext] = fileparts(filepath);
+    
+    
+
+>>>>>>> 95f5de5d03a1913d8fafe5abbe15635281346526
 
 
 
@@ -267,38 +277,39 @@ end
 
 
 %% Q_resistance 계산
+        
+        %data_merged 존재 --> data_D 구조체 만들고 삽입
+        
+        % Discharge aging , OCV discharge 구조체 가져오기  
+        data_D = data_merged(([data_merged.type]=='D')&(abs([data_merged.Q])>0.001)&([data_merged.rptflag]==0)|([data_merged.OCVflag])==2);
+        indices = find([data_D.OCVflag]==2);
+        
+        % first Q_resistance = ocv(c/20) - 뒷쪽 aging 1c Q
+        Q_resistance = [];
+        Q_resistance(1) = abs(data_D(1).Q) - abs(data_D(2).Q) ;
+        
+        % 나머지 Q_resistance = ocv(c/20) - 앞쪽 aging 1c Q
+        
+        for i = 2: length(indices)
+            if (0.0043 - abs(data_D(indices(i)).Iavg)) > 0.001 | data_D(indices(i)).V(end) > 3.0
+                   Q_resistance(i) = abs(data_D(indices(i)).Q) - abs(data_D(indices(i)-2).Q);
+            else
+                    Q_resistance(i) = abs(data_D(indices(i)).Q) - abs(data_D(indices(i)-1).Q);
+        
+            end
+        end
+        
+        
+        
+        % for k = 2 : length(indices)
+        %    Q_resistance(k) = abs(data_D(indices(k)).Q) - abs(data_D(indices(k)-1).Q);
+        % end
+        for i = 1: length(data_ocv)
+            data_ocv(i).Q_resistance = Q_resistance(i);
+        end
 
-%data_merged 존재 --> data_D 구조체 만들고 삽입
 
-% Discharge aging , OCV discharge 구조체 가져오기  
-data_D = data_merged(([data_merged.type]=='D')&(abs([data_merged.Q])>0.001)&([data_merged.rptflag]==0)|([data_merged.OCVflag])==2);
-indices = find([data_D.OCVflag]==2);
-
-% first Q_resistance = ocv(c/20) - 뒷쪽 aging 1c Q
-Q_resistance = [];
-Q_resistance(1) = abs(data_D(1).Q) - abs(data_D(2).Q) ;
-
-% 나머지 Q_resistance = ocv(c/20) - 앞쪽 aging 1c Q
-
-for i = 2: length(indices)
-    if (0.0043 - abs(data_D(indices(i)).Iavg)) > 0.001 | data_D(indices(i)).V(end) > 3.0
-           Q_resistance(i) = abs(data_D(indices(i)).Q) - abs(data_D(indices(i)-2).Q);
-    else
-            Q_resistance(i) = abs(data_D(indices(i)).Q) - abs(data_D(indices(i)-1).Q);
-
-    end
-end
-
-
-
-% for k = 2 : length(indices)
-%    Q_resistance(k) = abs(data_D(indices(k)).Q) - abs(data_D(indices(k)-1).Q);
-% end
-for i = 1: length(data_ocv)
-    data_ocv(i).Q_resistance = Q_resistance(i);
-end
-
-
+<<<<<<< HEAD
 % figure()
 % bar([data_ocv.cycle],[ data_ocv.dQ_LLI; data_ocv.dQ_LAMp; data_ocv.Q_resistance]','stacked')
 % hold on
@@ -315,8 +326,36 @@ plot([data_ocv.cycle], [data_ocv.dQ_data] + [data_ocv.Q_resistance], '-sm', 'Lin
 legend({'Loss by LLI', 'Loss by LAMp', 'Loss by resistance', 'Loss data (c/10)', 'Loss data (c/3)'}, 'Location', 'northwest');
 title('4CPD 4C (25-42) s01 25degC');
 %ylim([0 0.0045])
+=======
+figure()
+bar([data_ocv.cycle],[ data_ocv.dQ_LLI; data_ocv.dQ_LAMp; data_ocv.Q_resistance]','stacked')
+hold on
+plot([data_ocv.cycle],[data_ocv.dQ_data],'-sq','Color',[0.6 0.8 1],'LineWidth',2) % Light Blue
+plot([data_ocv.cycle],[data_ocv.dQ_data]+[data_ocv.Q_resistance],'-sq','Color',[1 0 1],'LineWidth',2) % Magenta
+legend({'Loss by LLI','Loss by LAMp','Loss by resistance','Loss data (c/10)', 'Loss data (c/3)'}, 'Location', 'northwest');
+title('1CPD 1C (25-42) s01 10degC')
+ylim([0 0.0030])
+
+%% save data_ocv
+
+% 숫자와 괄호 제거
+save_name_cleaned = regexprep(save_name, '[^a-zA-Z0-9_]', ''); % 숫자와 괄호를 제외한 모든 문자를 삭제
+
+% 새로운 구조체 이름 생성
+new_struct_name = ['data_ocv_', strrep(save_name_cleaned, ' ', '_')]; % 공백을 언더스코어로 대체
+
+% 새로운 구조체 생성
+new_struct = struct();
+new_struct.(genvarname(new_struct_name)) = data_ocv;
+
+% 새로운 파일에 새로운 구조체 저장
+new_filepath = fullfile(folder, [new_struct_name, ext]);
+save(new_filepath, '-struct', 'new_struct');
+>>>>>>> 95f5de5d03a1913d8fafe5abbe15635281346526
 
 
+
+%%
 function [cost, ocv_sim, dvdq, dvdq_sim] = func_ocvdvdq_cost(x,ocpn,ocpp,ocv,w_dvdq,w_ocv)
 
     % assign parameters
