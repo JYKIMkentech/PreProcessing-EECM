@@ -71,8 +71,8 @@ plot([data_average_ocv.cycle], [data_average_ocv.dQ_data], '-sc', 'LineWidth', 2
 plot([data_average_ocv.cycle], [data_average_ocv.dQ_data] + [data_average_ocv.Q_resistance], '-sm', 'LineWidth', 2); % Magenta
 
 % Add error bars for dQ_data (c/3) and Q_resistance
-errorbar([data_average_ocv.cycle], [data_average_ocv.dQ_data], std_dQ_data1, 'k', 'LineStyle', 'none', 'LineWidth', 1);
-errorbar([data_average_ocv.cycle], [data_average_ocv.dQ_data] + [data_average_ocv.Q_resistance], std_dQ_data_with_resistance1, 'k', 'LineStyle', 'none', 'LineWidth', 1);
+errorbar([data_average_ocv.cycle], [data_average_ocv.dQ_data], std_dQ_data1, 'Color', [0 1 1], 'LineStyle', 'none', 'LineWidth', 1); % Cyan
+errorbar([data_average_ocv.cycle], [data_average_ocv.dQ_data] + [data_average_ocv.Q_resistance], std_dQ_data_with_resistance1, 'Color', [1 0 1], 'LineStyle', 'none', 'LineWidth', 1); % Magenta
 
 % Legend and title
 legend({'Loss by LLI', 'Loss by LAMp', 'Loss by resistance', 'Loss data (c/20)', 'Loss data (c/3)', 'Error bars'}, 'Location', 'northwest');

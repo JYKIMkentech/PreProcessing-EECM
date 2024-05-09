@@ -45,8 +45,8 @@ clc;clear;close all
     %load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s02_92_51_Merged.mat')
     
 
-    filepath = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s02_92_51_Merged.mat';
-    load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s02_92_51_Merged.mat')
+    filepath = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 0.5C (25-42)\n10degC\HNE_FCC_4CPD 0.5C (25-42)_n10degC_s02_42_96_Merged.mat';
+    load(filepath);
     [folder, save_name, ext] = fileparts(filepath);
     
     
