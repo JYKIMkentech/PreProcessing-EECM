@@ -45,7 +45,7 @@ clc;clear;close all
     %load('G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\1CPD 1C (25-42)\10degC\HNE_FCC_1CPD 1C (25-42)_10degC_s02_92_51_Merged.mat')
     
 
-    filepath = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 0.5C (25-42)\n10degC\HNE_FCC_4CPD 0.5C (25-42)_n10degC_s02_42_96_Merged.mat';
+    filepath = 'G:\공유 드라이브\BSL_Data2\HNE_AgingDOE_Processed\HNE_FCC\4CPD 4C1C(10) (25-42)\10degC\HNE_FCC_4CPD 4C1C(10) (25-42)_10degC_s02_110_73_Merged.mat';
     load(filepath);
     [folder, save_name, ext] = fileparts(filepath);
     
@@ -305,13 +305,13 @@ end
         end
 
 
-% figure()
-% bar([data_ocv.cycle],[ data_ocv.dQ_LLI; data_ocv.dQ_LAMp; data_ocv.Q_resistance]','stacked')
-% hold on
-% plot([data_ocv.cycle],[data_ocv.dQ_data]+[data_ocv.Q_resistance],'-sqk','LineWidth',2)
-% plot([data_ocv.cycle],[data_ocv.dQ_data],'-sqk','LineWidth',2)
-% legend({'Loss by LLI','Loss by LAMp','Loss by resistance','Loss Data'}, 'Location', 'northwest');
-% title('4CPD 4C (25-42) -10degC')
+figure()
+bar([data_ocv.cycle],[ data_ocv.dQ_LLI; data_ocv.dQ_LAMp; data_ocv.Q_resistance]','stacked')
+hold on
+plot([data_ocv.cycle],[data_ocv.dQ_data]+[data_ocv.Q_resistance],'-sqk','LineWidth',2)
+plot([data_ocv.cycle],[data_ocv.dQ_data],'-sqk','LineWidth',2)
+legend({'Loss by LLI','Loss by LAMp','Loss by resistance','Loss Data'}, 'Location', 'northwest');
+title('4CPD 4C (25-42) -10degC')
 
 figure();
 bar([data_ocv.cycle], [data_ocv.dQ_LLI; data_ocv.dQ_LAMp; data_ocv.Q_resistance]', 'stacked');
@@ -326,7 +326,7 @@ bar([data_ocv.cycle],[ data_ocv.dQ_LLI; data_ocv.dQ_LAMp; data_ocv.Q_resistance]
 hold on
 plot([data_ocv.cycle],[data_ocv.dQ_data],'-sq','Color',[0.6 0.8 1],'LineWidth',2) % Light Blue
 plot([data_ocv.cycle],[data_ocv.dQ_data]+[data_ocv.Q_resistance],'-sq','Color',[1 0 1],'LineWidth',2) % Magenta
-legend({'Loss by LLI','Loss by LAMp','Loss by resistance','Loss data (c/10)', 'Loss data (c/3)'}, 'Location', 'northwest');
+legend({'Loss by LLI','Loss by LAMp','Loss by resistance','Loss data (c/20)', 'Loss data (c/3)'}, 'Location', 'northwest');
 title('1CPD 1C (25-42) s02 10degC')
 ylim([0 0.0020])
 
